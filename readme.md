@@ -29,12 +29,19 @@ happy _VEEEEMO_
 <img src="screenshot.png" width="257" alt="screenshot"/>
 
 1: an estimate of the points you'd gain (windelta, can be inflated)
+
 2: your current xpower
+
 3: how your xpower changed during this rotation (rotationdelta, not yet implemented)
+
 4: how much you'd lose (losedelta)
+
 5: chance of winning (based on windelta & losedelta)
+
 6: refresh, press this after the match starts
+
 7: exit the program
+
 8: chance of losing (based on windelta & losedelta)
 
 ## how does this work
