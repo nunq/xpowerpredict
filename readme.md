@@ -48,7 +48,7 @@ happy _VEEEEMO_
 
 magic, obviously.
 
-... jk. as soon as a match starts your xpower (in the app) is updated to the value that i'd be if you lost the match.
+... jk. as soon as a match starts your xpower (in the app) is updated to the value that it'd be if you lost the match.
 using _math_ and other _magic_ we can - somewhat accurately - estimate the points you'd gain. i got the formulas by messing around in google sheets with some test data.
 they're not optimal, the value of `win delta` (points you'd gain) is sometimes inflated. dunno how to fix that atm.
 
