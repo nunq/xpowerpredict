@@ -1,4 +1,4 @@
-# xrankpowerpredict
+# xrankpowerpredict (for solo q)
 
 i was inspired by [snowpoke's](https://www.twitch.tv/snowpoke) prediction system and wanted to do some predicting myself.
 
@@ -19,7 +19,7 @@ if you're lucky (like me), you have an old phone with android 6.0 (marshmellow) 
 
 ## how do i run this?
 
-first, adjust the config options in the script.
+first, paste your token into the script.
 
 then do `python3 [path to script]` before the match starts. hit 'refresh' some time after the lobby screen says 'BATTLE TIME!'. 
 
@@ -31,6 +31,7 @@ magic, obviously.
 
 ... jk. as soon as a match starts your xpower (in the app) is updated to the value that i'd be if you lost the match.
 using _math_ and other _magic_ we can - somewhat accurately - estimate the points you'd gain. i got the formulas by messing around in google sheets with some test data.
+they're not optimal, the value of `win delta` (points you'd gain) is sometimes inflated. dunno how to fix that atm.
 
 
 ## etc

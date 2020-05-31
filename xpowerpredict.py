@@ -36,10 +36,14 @@ beginrange = datetime.date.today().replace(day=1)
 endofrange = beginrange + relativedelta.relativedelta(months=1)
 timespan = beginrange.strftime("%y%m%dT00")+"_"+endofrange.strftime("%y%m%dT00")
 
-initialxpower = oldxpower = newxpower = 0.0
+initialxpower = 0.0
+has_already_played_match_in_cur_rotation = False
 
 def getjsonfrom(url):
-    headers = {"Cookie": "iksm_session="+IKSM_SESSION}
+    headers = {
+            "Cookie": "iksm_session="+IKSM_SESSION,
+            "User-Agent": "Mozilla/5.0 (Linux; Android 8.0.0; SM-G960F Build/R16NW) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.84 Mobile Safari/537.36"
+            }
     r = requests.get(url, headers=headers)
     return r.text
 
@@ -65,12 +69,15 @@ def updatelabels(win, current, newxpower, lose, winc, losec):
 
     global initialxpower
 
-    if initialxpower <= newxpower:
-        delta = "+"+str(int(round(newxpower-initialxpower)))
-        label_delta_xpower.config(text=delta)
-    elif initialxpower > newxpower:
-        delta = "-"+str(int(round(initialxpower-newxpower)))
-        label_delta_xpower.config(text=delta)
+    if has_already_played_match_in_cur_rotation:
+        if initialxpower <= newxpower:
+            delta = "+"+str(int(round(newxpower-initialxpower)))
+            label_delta_xpower.config(text=delta)
+        elif initialxpower > newxpower:
+            delta = "-"+str(int(round(initialxpower-newxpower)))
+            label_delta_xpower.config(text=delta)
+    else:
+            label_delta_xpower.config(text="not impl.")
     
     root.update()
 
@@ -78,25 +85,26 @@ def update():
     button_refresh.config(state="disabled")
     root.update()
 
-    currentxpower = getcurrentmodexpower()
+    iflostxpower = getcurrentmodexpower()
     global initialxpower
+    global has_already_played_match_in_cur_rotation
 
-    losedelta = initialxpower - currentxpower
+    losedelta = initialxpower - iflostxpower
 
-    try:
-        win_lose_abs_delta = ((sqrt(currentxpower/losedelta)+losedelta)/25)*25
+    try: # note: abs distance between losedelta & windelta is max. 25, i took 24.4 to slightly mitigate value inflation
+        win_lose_abs_delta = ((sqrt(iflostxpower/losedelta)+losedelta)/24.4)*24.4
         if win_lose_abs_delta > 24.4:
             win_lose_abs_delta = 24.4
 
-        windelta = sqrt(currentxpower/losedelta)-(sqrt(currentxpower/losedelta)-(win_lose_abs_delta-losedelta))
-        winchance = windelta/win_lose_abs_delta*100
-        losechance = losedelta/win_lose_abs_delta*100
+        windelta = sqrt(iflostxpower/losedelta)
+        losechance = windelta/win_lose_abs_delta*100
+        winchance = losedelta/win_lose_abs_delta*100
 
     except:
-        showmsg(False, "info", "couldn't calc gainable points & percentages")
+        showmsg(False, "info", "couldn't calc gainable points & percentages, maybe you hit 'refresh' too early.")
         winchance = losechance = windelta = 0.0
 
-    updatelabels(windelta, currentxpower, currentxpower, losedelta, winchance, losechance)
+    updatelabels(windelta, initialxpower, iflostxpower, losedelta, winchance, losechance)
     button_refresh.config(state="normal")
 
 def init():
