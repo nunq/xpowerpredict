@@ -21,9 +21,16 @@ if you're lucky (like me), you have an old phone with android 6.0 (marshmallow) 
 
 first, paste your token into the script.
 
-then do `python3 [path to script]` before the match starts. hit 'refresh' some time after the lobby screen says 'BATTLE TIME!'. 
+then do `python3 [path to script]`
 
 happy _VEEEEMO_
+
+### when to press the buttons
+start: after the lobby screen says 'BATTLE TIME!'.
+
+end: when the results are shown (level/rank/kills/etc screen).
+
+doing this anytime else might skew the values and cause errors.
 
 ### the ui
 <img src="screenshot.png" width="257" alt="screenshot"/>

@@ -36,8 +36,7 @@ beginrange = datetime.date.today().replace(day=1)
 endofrange = beginrange + relativedelta.relativedelta(months=1)
 timespan = beginrange.strftime("%y%m%dT00")+"_"+endofrange.strftime("%y%m%dT00")
 
-initialxpower = 0.0
-has_already_played_match_in_cur_rotation = False
+initialxpower = currentxpower = 0.0
 
 def getjsonfrom(url):
     headers = {
@@ -60,43 +59,35 @@ def getcurrentmodexpower():
     
     return newxpower
     
-def updatelabels(win, current, newxpower, lose, winc, losec):
+def updatelabels(win, current, rotationdelta, lose, winc, losec):
     label_win_xpower.config(text="+"+str(int(round(win))))
     label_curr_xpower.config(text=str(current))
     label_lose_xpower.config(text="-"+str(int(round(lose))))
     label_win_chance.config(text=str(int(round(winc)))+"%")
     label_lose_chance.config(text=str(int(round(losec)))+"%")
-
-    global initialxpower
-
-    if has_already_played_match_in_cur_rotation:
-        if initialxpower <= newxpower:
-            delta = "+"+str(int(round(newxpower-initialxpower)))
-            label_delta_xpower.config(text=delta)
-        elif initialxpower > newxpower:
-            delta = "-"+str(int(round(initialxpower-newxpower)))
-            label_delta_xpower.config(text=delta)
-    else:
-            label_delta_xpower.config(text="not impl.")
     
+    if rotationdelta != "SAME":
+        label_delta_xpower.config(text=rotationdelta)
+
     root.update()
 
-def update():
-    button_refresh.config(state="disabled")
+def beforebattle(): # after the match starts
+    button_before_refresh.config(state="disabled")
     root.update()
 
     iflostxpower = getcurrentmodexpower()
-    global initialxpower
-    global has_already_played_match_in_cur_rotation
 
-    losedelta = initialxpower - iflostxpower
+    global currentxpower
 
-    try: # note: abs distance between losedelta & windelta is max. 25, i took 24.4 to slightly mitigate value inflation
-        win_lose_abs_delta = ((sqrt(iflostxpower/losedelta)+losedelta)/24.4)*24.4
-        if win_lose_abs_delta > 24.4:
-            win_lose_abs_delta = 24.4
+    losedelta = currentxpower - iflostxpower
 
-        windelta = sqrt(iflostxpower/losedelta)
+    try: # note: abs distance between losedelta & windelta is (in 99% of cases) max. 25
+        cutoff = 25
+        win_lose_abs_delta = ((sqrt(iflostxpower/losedelta)+losedelta)/cutoff)*cutoff
+        if win_lose_abs_delta > cutoff:
+            win_lose_abs_delta = cutoff
+
+        windelta = sqrt(iflostxpower/losedelta)-(sqrt(iflostxpower/losedelta)-(win_lose_abs_delta-losedelta))
         losechance = windelta/win_lose_abs_delta*100
         winchance = losedelta/win_lose_abs_delta*100
 
@@ -104,13 +95,33 @@ def update():
         showmsg(False, "info", "couldn't calc gainable points & percentages, maybe you hit 'refresh' too early.")
         winchance = losechance = windelta = 0.0
 
-    updatelabels(windelta, initialxpower, iflostxpower, losedelta, winchance, losechance)
-    button_refresh.config(state="normal")
+    updatelabels(windelta, currentxpower, "SAME", losedelta, winchance, losechance)
+    button_before_refresh.config(state="normal")
+
+def afterbattle(): # after the match ended
+    button_after_refresh.config(state="disabled")
+
+    global initialxpower
+    global currentxpower
+
+    currentxpower = getcurrentmodexpower()
+
+    if initialxpower <= currentxpower:
+        delta = "+"+str(int(round(currentxpower-initialxpower)))
+        label_delta_xpower.config(text=delta)
+    elif initialxpower > currentxpower:
+        delta = "-"+str(int(round(initialxpower-currentxpower)))
+        label_delta_xpower.config(text=delta)
+
+    updatelabels(0.0, currentxpower, delta, 0.0, 0.0, 0.0)
+    button_after_refresh.config(state="normal")
 
 def init():
     global initialxpower
+    global currentxpower
     initialxpower = getcurrentmodexpower() 
-    updatelabels(0.0, initialxpower, initialxpower, 0.0, 0.0, 0.0)
+    currentxpower = initialxpower
+    updatelabels(0.0, initialxpower, "+0", 0.0, 0.0, 0.0)
 
 
 # build the ui
@@ -143,14 +154,17 @@ label_lose_xpower.pack(side="top", fill=BOTH, expand=1)
 label_win_chance = Label(master=frame_right, bg="#fcab41", font=("sans-serif", 38))
 label_win_chance.pack(side="top", fill=BOTH, expand=1)
 
-button_refresh = Button(master=frame_right, text="refresh", command=update, font=("sans-serif", 28))
-button_refresh.pack(side="top", fill=BOTH, expand=1)
+button_before_refresh = Button(master=frame_right, text="start", command=beforebattle, font=("sans-serif", 20))
+button_before_refresh.pack(side="top", fill=BOTH, expand=1)
 
-button_quit = Button(master=frame_right, text="quit", command=quit, font=("sans-serif", 28))
+button_after_refresh = Button(master=frame_right, text="end", command=afterbattle, font=("sans-serif", 20))
+button_after_refresh.pack(side="top", fill=BOTH, expand=1)
+
+button_quit = Button(master=frame_right, text="quit", command=quit, font=("sans-serif", 14))
 button_quit.pack(side="top", fill=BOTH, expand=1)
 
 label_lose_chance = Label(master=frame_right, bg="#fcab41", font=("sans-serif", 38))
-label_lose_chance.pack(side="bottom", fill=BOTH, expand=1)
+label_lose_chance.pack(side="top", fill=BOTH, expand=1)
 
 init()
 
