@@ -14,7 +14,7 @@ we need the `iksm_session` token that the nintendo switch online app uses for au
 
 [here's a guide](https://github.com/frozenpandaman/splatnet2statink/wiki/mitmproxy-instructions). beware that if you try this on android, you'll need an android version below 7.0 (nougat), because later versions have a different policy for user-imported certificates.
 
-if you're lucky (like me), you have an old phone with android 6.0 (marshmellow) lying around, otherwise you'd need to screw around with android virtual machines (probably not that fun tbh).
+if you're lucky (like me), you have an old phone with android 6.0 (marshmallow) lying around, otherwise you'd need to screw around with android virtual machines (probably not that fun tbh).
 
 
 ## how do i run this?
