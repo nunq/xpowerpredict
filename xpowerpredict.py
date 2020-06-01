@@ -60,7 +60,7 @@ def getcurrentmodexpower():
     try:
         newxpower = xdata[currentmode]["my_ranking"]["x_power"]
     except TypeError:
-        showmsg(True, "error", "couldn't get current x power, maybe you're not x rank in this mode?")
+        showmsg(True, "error", "couldn't get current x power, maybe you're not x rank in this mode? or your power isn't calculated yet?")
     
     return newxpower
 
