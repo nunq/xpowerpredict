@@ -8,9 +8,14 @@ from tkinter import *
 from tkinter import messagebox
 from dateutil import relativedelta
 
-IKSM_SESSION=""
+###############################
+########### CONFIG ############
 
-#######################################################
+IKSM_SESSION=""
+lframe_width=200 # for mobile: you might want to increase this, e.g. 290
+rframe_width=160 # for mobile: you might want to decrease this, e.g. 50
+
+###############################
 
 def showmsg(fatal, title, body):
     if fatal:
@@ -58,7 +63,7 @@ def getcurrentmodexpower():
         showmsg(True, "error", "couldn't get current x power, maybe you're not x rank in this mode?")
     
     return newxpower
-    
+
 def updatelabels(win, current, rotationdelta, lose, winc, losec):
     label_win_xpower.config(text="+"+str(int(round(win))))
     label_curr_xpower.config(text=str(current))
@@ -131,11 +136,11 @@ root.geometry("360x260+100+100")
 root.update()
 root.minsize(root.winfo_width(), root.winfo_height())
 
-frame_left = Frame(master=root, width="200")
+frame_left = Frame(master=root, width=lframe_width)
 frame_left.pack(side="left", padx="5", pady="5", fill=BOTH, expand=1)
 frame_left.pack_propagate(0)
 
-frame_right = Frame(master=root, width="160")
+frame_right = Frame(master=root, width=rframe_width)
 frame_right.pack(side="right", padx="5", pady="5", fill=BOTH, expand=1)
 frame_right.pack_propagate(0)
 

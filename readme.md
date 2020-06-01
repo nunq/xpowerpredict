@@ -19,9 +19,19 @@ if you're lucky (like me), you have an old phone with android 6.0 (marshmallow) 
 
 ## how do i run this?
 
-first, paste your token into the script.
+first, adjust the config options in the script.
 
 then do `python3 [path to script]`
+
+this also somewhat works on mobile, using [this android app](https://play.google.com/store/apps/details?id=ru.iiec.pydroid3).
+
+instructions:
+
+1. in that app: side panel > pip: install `python-dateutil` and `requests`
+2. top bar > folder icon > open: select xpowerpredict.py
+3. click the play button
+
+depending on the aspect ratio of your phone, you might want to adjust `lframe_width` and `rframe_width`.
 
 happy _VEEEEMO_
 
