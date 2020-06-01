@@ -105,6 +105,7 @@ def beforebattle(): # after the match starts
 
 def afterbattle(): # after the match ended
     button_after_refresh.config(state="disabled")
+    root.update()
 
     global initialxpower
     global currentxpower
