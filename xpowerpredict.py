@@ -60,7 +60,7 @@ def getcurrentmodexpower():
     try:
         newxpower = xdata[currentmode]["my_ranking"]["x_power"]
     except TypeError:
-        showmsg(True, "error", "couldn't get current x power, maybe you're not x rank in this mode? or your power isn't calculated yet?")
+        showmsg(True, "error", "couldn't get current x power\nmaybe you're not x rank in this mode?\nor your power isn't calculated yet?")
     
     return newxpower
 
@@ -86,18 +86,15 @@ def beforebattle(): # after the match starts
 
     losedelta = currentxpower - iflostxpower
 
-    try: # note: abs distance between losedelta & windelta is (in 99% of cases) max. 25
-        cutoff = 25
-        win_lose_abs_delta = ((sqrt(iflostxpower/losedelta)+losedelta)/cutoff)*cutoff
-        if win_lose_abs_delta > cutoff:
-            win_lose_abs_delta = cutoff
+    try:
+        windelta = sqrt(iflostxpower/losedelta)
 
-        windelta = sqrt(iflostxpower/losedelta)-(sqrt(iflostxpower/losedelta)-(win_lose_abs_delta-losedelta))
-        losechance = windelta/win_lose_abs_delta*100
-        winchance = losedelta/win_lose_abs_delta*100
+        percentage_multiplier = 100/(windelta+losedelta)
+        losechance = windelta*percentage_multiplier
+        winchance = losedelta*percentage_multiplier
 
     except:
-        showmsg(False, "info", "couldn't calc gainable points & percentages, maybe you hit 'refresh' too early.")
+        showmsg(False, "info", "couldn't calc gainable points & percentages\nmaybe you hit 'refresh' too early.")
         winchance = losechance = windelta = 0.0
 
     updatelabels(windelta, currentxpower, "SAME", losedelta, winchance, losechance)

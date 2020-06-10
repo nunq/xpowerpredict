@@ -53,17 +53,23 @@ doing this anytime else might skew the values and cause errors.
 
 2: your current xpower
 
-3: how your xpower changed during this rotation (rotationdelta, not yet implemented)
+3: how your initial xpower has changed (while the script was running), i.e. the difference between initial and current xpower
 
 4: how much you'd lose (losedelta)
 
 5: chance of winning (based on windelta & losedelta)
 
-6: refresh, press this after the match starts
+6: start button
 
-7: exit the program
+7: end button
 
-8: chance of losing (based on windelta & losedelta)
+8: exit the program
+
+9: chance of losing (based on windelta & losedelta)
+
+on mobile (with `lframe_width`and `rframe_width` adjusted):
+
+<img src="screenshot-mobile.png" width="300" alt="screenshot (mobile)"/>
 
 ## how does this work
 
