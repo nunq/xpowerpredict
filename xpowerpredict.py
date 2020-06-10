@@ -122,7 +122,12 @@ def afterbattle(): # after the match ended
 def init():
     global initialxpower
     global currentxpower
-    initialxpower = getcurrentmodexpower() 
+
+    try:
+        initialxpower = getcurrentmodexpower()
+    except KeyError:
+        showmsg(True, "error", "iksm_session token is no longer valid")
+
     currentxpower = initialxpower
     updatelabels(0.0, initialxpower, "+0", 0.0, 0.0, 0.0)
 

@@ -20,6 +20,7 @@ we need the `iksm_session` token that the nintendo switch online app uses for au
 
 if you're lucky (like me), you have an old phone with android 6.0 (marshmallow) lying around, otherwise you'd need to screw around with android virtual machines (probably not that fun tbh).
 
+**apparently, `iksm_session` can be invalidated, so you'll have to keep yours up-to-date**
 
 ## how do i run this?
 
