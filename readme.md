@@ -38,7 +38,7 @@ instructions:
 
 depending on the aspect ratio of your phone, you might want to adjust `lframe_width` and `rframe_width`.
 
-currently, the script needs to be restarted each rotation, see #3
+currently, the script needs to be restarted each rotation, see [#3](https://github.com/hyphenc/xpowerpredict/issues/3)
 
 happy _VEEEEMO_
 
