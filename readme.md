@@ -49,23 +49,17 @@ doing this anytime else might skew the values and cause errors.
 ### the ui
 <img src="screenshot.png" width="257" alt="screenshot"/>
 
-1: an estimate of the points you'd gain (windelta, can be inflated)
+* 1: an estimate of the points you'd gain (windelta, can be inflated)
+* 2: your current xpower
+* 3: how your initial xpower has changed (while the script was running), i.e. the difference between initial and current xpower
+* 4: how much you'd lose (losedelta)
+* 5: chance of winning (based on windelta & losedelta)
+* 6: start button
+* 7: end button
+* 8: exit the program
+* 9: chance of losing (based on windelta & losedelta)
 
-2: your current xpower
-
-3: how your initial xpower has changed (while the script was running), i.e. the difference between initial and current xpower
-
-4: how much you'd lose (losedelta)
-
-5: chance of winning (based on windelta & losedelta)
-
-6: start button
-
-7: end button
-
-8: exit the program
-
-9: chance of losing (based on windelta & losedelta)
+---
 
 on mobile (with `lframe_width`and `rframe_width` adjusted):
 
@@ -76,8 +70,8 @@ on mobile (with `lframe_width`and `rframe_width` adjusted):
 magic, obviously.
 
 ... jk. as soon as a match starts your xpower (in the app) is updated to the value that it'd be if you lost the match.
-using _math_ and other _magic_ we can - somewhat accurately - estimate the points you'd gain. i got the formulas by messing around in google sheets with some test data.
-they're not optimal, the value of `win delta` (points you'd gain) is sometimes inflated. dunno how to fix that atm.
+using _math_ we can estimate the points you'd gain.
+the formulas are not optimal, edge cases (where you lose lots of points _or_ lose less than 5, i.e. unbalanced matches) aren't handled that well and the calculated values tend to be too big/small in those cases. dunno how to fix that atm.
 
 ## etc
 
