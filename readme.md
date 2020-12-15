@@ -2,6 +2,8 @@
 
 i was inspired by [snowpoke's](https://www.twitch.tv/snowpoke) prediction system and wanted to do some predicting myself.
 
+⚠️ **WARNING: i haven't used this software since i wrote it in may of 2020. might not work anymore.** ⚠️
+
 **when this script works:**
 
 in x rank solo queue, except during the 10 placement matches and the first regular match (at least it didn't work during testing).
